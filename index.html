@@ -1,187 +1,812 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profile Header</title>
+    <title>Ishan Jain | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-1: #091028;
+            --bg-2: #0f2740;
+            --bg-3: #1d3f5f;
+            --text-main: #eef6ff;
+            --text-soft: #b7c7db;
+            --surface: rgba(9, 20, 40, 0.72);
+            --surface-2: rgba(13, 32, 58, 0.82);
+            --accent: #57d9a3;
+            --accent-2: #56b6ff;
+            --border-soft: rgba(255, 255, 255, 0.16);
+            --shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to bottom, #ddeeff, #88ccff); /* Blue gradient */
-}
-        header {
-            padding: 15px 30px;
-            border-bottom: 2px solid #ddd;
-            height: 10vh;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            position: sticky;
+            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at 12% 8%, rgba(86, 182, 255, 0.28), transparent 40%),
+                radial-gradient(circle at 88% 12%, rgba(87, 217, 163, 0.25), transparent 36%),
+                linear-gradient(135deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(8, 16, 34, 0.9);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent-2), var(--accent));
+            border-radius: 10px;
+        }
+
+        .scroll-progress {
+            position: fixed;
             top: 0;
+            left: 0;
+            height: 4px;
+            width: 0;
+            z-index: 2000;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            box-shadow: 0 0 15px rgba(86, 182, 255, 0.7);
+            transition: width 0.1s linear;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            z-index: -1;
+            width: 42vw;
+            height: 42vw;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.35;
+            animation: drift 9s ease-in-out infinite alternate;
+        }
+
+        body::before {
+            background: #2dc2ff;
+            top: -14vw;
+            right: -8vw;
+        }
+
+        body::after {
+            background: #3fe0a6;
+            bottom: -18vw;
+            left: -10vw;
+            animation-duration: 11s;
+        }
+
+        @keyframes drift {
+            from { transform: translateY(0px); }
+            to { transform: translateY(22px); }
+        }
+
+        .site-header {
+            width: min(1100px, 92vw);
+            margin: 20px auto 0;
+            padding: 18px 20px;
+            border: 1px solid var(--border-soft);
+            border-radius: 18px;
+            background: rgba(8, 16, 34, 0.75);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 14px;
             z-index: 1000;
         }
-        h1 {
-            font-size: 28px;
-            font-weight: bold;
-            color: #212529;
-            font-family: 'Poppins', sans-serif;
-            font-style: italic;
+
+        .hero-title {
+            margin: 0;
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(1.1rem, 2.4vw, 2rem);
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            color: #f8fcff;
         }
+
         .btn-custom {
-            border: 2px solid #000;
-            padding: 8px 15px;
-            border-radius: 8px;
-            transition: all 0.3s ease-in-out;
-        }
-        .btn-custom:hover {
-            background-color: black;
-            color: white;
-        }
-        .scrollable{
-            overflow: auto;
-            height: 90vh;
-        }
-        .container {
-            margin-top: 30px;
-            max-width: 800px;
-        }
-
-        /* Card Effect */
-        .accordion {
-            background: white;
-            padding: 20px;
+            border: 1px solid transparent;
+            padding: 9px 16px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #001321;
+            font-weight: 700;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Accordion Header */
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(86, 182, 255, 0.35);
+            color: #001321;
+        }
+
+        .content-wrap {
+            width: min(1100px, 92vw);
+            margin: 24px auto 40px;
+        }
+
+        .accordion {
+            border: 1px solid var(--border-soft);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            scroll-snap-type: y proximity;
+        }
+
+        .accordion-item {
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            scroll-margin-top: 120px;
+            scroll-snap-align: start;
+        }
+
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
+            will-change: opacity, transform;
+        }
+
+        .reveal-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: 0;
+        }
+
         .accordion-button {
-            font-size: 18px;
+            font-family: 'Sora', sans-serif;
+            font-weight: 700;
+            font-size: 1.02rem;
+            color: var(--text-main);
+            background: transparent;
+            padding: 20px 24px;
+            box-shadow: none;
+        }
+
+        .accordion-button:not(.collapsed) {
+            color: #ffffff;
+            background: rgba(87, 217, 163, 0.1);
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+
+        .accordion-button::after {
+            filter: invert(1) contrast(1.2);
+            opacity: 0.9;
+        }
+
+        .accordion-body {
+            color: var(--text-soft);
+            line-height: 1.7;
+            padding: 0 24px 24px;
+            animation: reveal 0.35s ease;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card {
+            height: 100%;
+            border: 1px solid var(--border-soft);
+            background: var(--surface-2);
+            border-radius: 14px;
+            transition: transform 0.22s ease, border-color 0.22s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(86, 182, 255, 0.65);
+        }
+
+        .project-card .card-title {
+            font-family: 'Sora', sans-serif;
+            color: #f3f9ff;
+            font-size: 1rem;
+            line-height: 1.45;
+        }
+
+        .project-card .card-text {
+            color: var(--text-soft);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .experience-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .experience-flip-card {
+            position: relative;
+            min-height: 170px;
+            perspective: 1100px;
+            cursor: pointer;
+            outline: none;
+            transition: min-height 0.34s ease;
+        }
+
+        .experience-flip-card.is-expanded {
+            min-height: 340px;
+        }
+
+        .experience-flip-card:focus-visible .experience-card-inner {
+            box-shadow: 0 0 0 2px rgba(87, 217, 163, 0.5), var(--shadow);
+        }
+
+        .experience-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: inherit;
+            transition: transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .experience-flip-card.is-flipped .experience-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .experience-card-face {
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            background: linear-gradient(145deg, rgba(86, 182, 255, 0.12), rgba(87, 217, 163, 0.08));
+            padding: 16px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            overflow: hidden;
+        }
+
+        .experience-card-back {
+            transform: rotateY(180deg);
+        }
+
+        .experience-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .experience-role {
+            font-family: 'Sora', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #f6fbff;
+            margin: 0;
+        }
+
+        .experience-date {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #d9ecff;
+            padding: 5px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(10, 32, 52, 0.5);
+        }
+
+        .experience-points {
+            margin: 0;
+            padding-left: 20px;
+            color: var(--text-soft);
+        }
+
+        .experience-points li {
+            margin-bottom: 8px;
+            line-height: 1.55;
+        }
+
+        .experience-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 12px;
+        }
+
+        .experience-chip {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #e8f4ff;
+            background: rgba(8, 27, 47, 0.58);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            padding: 5px 10px;
+        }
+
+        .flip-hint {
+            font-size: 0.82rem;
+            color: #d3e4f8;
+            opacity: 0.9;
+            margin-top: 12px;
+        }
+
+        .btn-project {
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: #eaf3ff;
+            background: transparent;
             font-weight: 600;
         }
-        .accordion-button:hover {
-            background: rgba(0, 0, 0, 0.05);
+
+        .btn-project:hover {
+            color: #041429;
+            background: var(--accent-2);
+            border-color: transparent;
         }
 
-        /* Accordion Open Animation */
-        .accordion-collapse {
-            transition: height 0.3s ease-in-out;
+        .contact-links .btn {
+            margin: 6px;
+        }
+
+        .chip-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(86, 182, 255, 0.14);
+            color: #f1f8ff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            animation: chipFloat 2.8s ease-in-out infinite;
+            animation-delay: calc(var(--i, 0) * 110ms);
+        }
+
+        @keyframes chipFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .jump-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .jump-link {
+            text-decoration: none;
+            color: #d9e8fb;
+            font-size: 0.82rem;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 999px;
+            padding: 6px 12px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .jump-link:hover {
+            background: rgba(87, 217, 163, 0.18);
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .site-header {
+                margin-top: 12px;
+                padding: 14px;
+                top: 8px;
+            }
+
+            .hero-title {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+
+            .site-header {
+                text-align: center;
+            }
+
+            .header-inner {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .accordion-button {
+                padding: 16px;
+            }
+
+            .accordion-body {
+                padding: 0 16px 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-section {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
         }
     </style>
 </head>
 <body>
+<div class="scroll-progress" id="scrollProgress"></div>
 
-<header class="d-flex align-items-center justify-content-between">
-    <h1>Code, Coffee, and Innovation – Meet Ishan Jain.</h1>
-    <div>
-        <button class="btn btn-custom me-2" onclick="sendEmail()">Hire</button>
-        <!-- <button class="btn btn-custom">Blogs</button> -->
+<header class="site-header">
+    <div class="header-inner d-flex align-items-center justify-content-between">
+        <h1 class="hero-title">Code, Coffee, and Innovation - Meet Ishan Jain.</h1>
+        <div>
+            <button class="btn btn-custom" onclick="sendEmail()">Hire</button>
+        </div>
     </div>
+    <nav class="jump-nav">
+        <a class="jump-link" href="#about">About</a>
+        <a class="jump-link" href="#skills">Skills</a>
+        <a class="jump-link" href="#experience">Experience</a>
+        <a class="jump-link" href="#projects">Projects</a>
+        <a class="jump-link" href="#education">Education</a>
+        <a class="jump-link" href="#contact">Contact</a>
+    </nav>
 </header>
-<div class="scrollable">
-    <div class="container mt-4">
-        <div class="accordion" id="portfolioAccordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#about" aria-expanded="true">
-                        About Me
-                    </button>
-                </h2>
-                <div id="about" class="accordion-collapse collapse show" >
-                    <div class="accordion-body">
-                        Passionate Full Stack Developer with a keen interest in building scalable and secure applications. With expertise in cutting-edge technologies, I thrive on transforming innovative ideas into impactful solutions. Adept at solving complex problems, optimizing performance, and delivering high-quality software solutions that enhance user experience. Whether it's crafting elegant front-end interfaces or architecting robust back-end systems, I am always eager to push boundaries and create seamless digital experiences.                    </div>
+
+<main class="content-wrap">
+    <div class="accordion" id="portfolioAccordion">
+        <div class="accordion-item reveal-section">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#about" aria-expanded="true">
+                    About Me
+                </button>
+            </h2>
+            <div id="about" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    Passionate Full Stack Developer with 2+ years of experience building scalable, secure applications using Java, Spring Boot, and modern web technologies. I excel in microservices architecture, RESTful APIs, cloud platforms, and GenAI solutions for enterprise needs. Thriving on complex problem-solving, performance optimization, and delivering high-quality software that enhances user experiences—whether crafting elegant front-ends or robust back-ends.
                 </div>
             </div>
-            
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#skills" aria-expanded="true">
-                        Skills
-                    </button>
-                </h2>
-                <div id="skills" class="accordion-collapse collapse show" >
-                    <div class="accordion-body">
-                        JavaScript, Angular, NodeJS, Spring Web, Spring Security, Spring Boot, Spring Framework, Java, Python, PostgreSQL, AWS, Machine Learning, Deep Learing, ExtJs, System Design
+        </div>
+
+        <div class="accordion-item reveal-section">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#skills" aria-expanded="true">
+                    Skills
+                </button>
+            </h2>
+            <div id="skills" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <div class="chip-wrap">
+                        <span class="skill-chip" style="--i:0">Java</span>
+                        <span class="skill-chip" style="--i:1">JavaScript</span>
+                        <span class="skill-chip" style="--i:2">Python</span>
+                        <span class="skill-chip" style="--i:3">C++</span>
+                        <span class="skill-chip" style="--i:4">Spring Boot</span>
+                        <span class="skill-chip" style="--i:5">Spring Security</span>
+                        <span class="skill-chip" style="--i:6">Node.js</span>
+                        <span class="skill-chip" style="--i:7">Microservices</span>
+                        <span class="skill-chip" style="--i:8">REST APIs</span>
+                        <span class="skill-chip" style="--i:9">GraphQL</span>
+                        <span class="skill-chip" style="--i:10">gRPC</span>
+                        <span class="skill-chip" style="--i:11">React</span>
+                        <span class="skill-chip" style="--i:12">Angular</span>
+                        <span class="skill-chip" style="--i:13">PostgreSQL</span>
+                        <span class="skill-chip" style="--i:14">MySQL</span>
+                        <span class="skill-chip" style="--i:15">MongoDB</span>
+                        <span class="skill-chip" style="--i:16">CassandraDB</span>
+                        <span class="skill-chip" style="--i:17">AWS</span>
+                        <span class="skill-chip" style="--i:18">Docker</span>
+                        <span class="skill-chip" style="--i:19">CI/CD</span>
+                        <span class="skill-chip" style="--i:20">OpenAI SDK</span>
+                        <span class="skill-chip" style="--i:21">RAG Pipelines</span>
+                        <span class="skill-chip" style="--i:22">TensorFlow</span>
+                        <span class="skill-chip" style="--i:23">System Design</span>
                     </div>
                 </div>
             </div>
-            
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#experience" aria-expanded="true">
-                        Experience
-                    </button>
-                </h2>
-                <div id="experience" class="accordion-collapse collapse show" >
-                    <div class="accordion-body">
-                        Software Engineer at Visa Inc. | Built scalable client onboarding and real-time notification systems.
+        </div>
+
+        <div class="accordion-item reveal-section">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#experience" aria-expanded="true">
+                    Experience
+                </button>
+            </h2>
+            <div id="experience" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <div class="experience-grid">
+                        <article class="experience-flip-card" tabindex="0" role="button" aria-label="Visa Senior Software Engineer card. Click to flip.">
+                            <div class="experience-card-inner">
+                                <div class="experience-card-face experience-card-front">
+                                    <div class="experience-head">
+                                        <h3 class="experience-role">Visa Inc. - Sr. Software Engineer</h3>
+                                        <span class="experience-date">Apr 2025 - Present</span>
+                                    </div>
+                                    <div class="experience-highlights">
+                                        <span class="experience-chip">RAG</span>
+                                        <span class="experience-chip">Agents</span>
+                                        <span class="experience-chip">MCP</span>
+                                        <span class="experience-chip">OpenAI SDK</span>
+                                        <span class="experience-chip">Java</span>
+                                        <span class="experience-chip">AI Security Middleware</span>
+                                    </div>
+                                    <p class="flip-hint">Click card to view detailed impact.</p>
+                                </div>
+                                <div class="experience-card-face experience-card-back">
+                                    <div class="experience-head">
+                                        <h3 class="experience-role">Key Contributions</h3>
+                                        <span class="experience-date">Senior Role</span>
+                                    </div>
+                                    <ul class="experience-points">
+                                        <li>Architected a Semantic Search Engine (RAG) using OpenAI SDK to query an enterprise corpus of 10,000+ documents (50GB+ data), implementing cosine similarity for high-precision retrieval.</li>
+                                        <li>Developed an AI Security Middleware to sanitize LLM inputs/outputs, including PII anonymization and malicious prompt filtering for financial-data compliance.</li>
+                                        <li>Engineered an experimental agentic framework to bridge siloed enterprise systems (JIRA, Outlook, Wiki, AskNow), handling complex API integrations and asynchronous data flows.</li>
+                                        <li>Mentored junior developers on backend architecture and engineering best practices, improving code quality through rigorous peer reviews.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="experience-flip-card" tabindex="0" role="button" aria-label="Visa Software Engineer card. Click to flip.">
+                            <div class="experience-card-inner">
+                                <div class="experience-card-face experience-card-front">
+                                    <div class="experience-head">
+                                        <h3 class="experience-role">Visa Inc. - Software Engineer</h3>
+                                        <span class="experience-date">Jun 2023 - Apr 2025</span>
+                                    </div>
+                                    <div class="experience-highlights">
+                                        <span class="experience-chip">Java</span>
+                                        <span class="experience-chip">Spring Boot</span>
+                                        <span class="experience-chip">CSRF</span>
+                                        <span class="experience-chip">Cron Jobs</span>
+                                        <span class="experience-chip">Event-Driven</span>
+                                        <span class="experience-chip">Spring Batch</span>
+                                        <span class="experience-chip">Microservices</span>
+                                    </div>
+                                    <p class="flip-hint">Click card to view detailed impact.</p>
+                                </div>
+                                <div class="experience-card-face experience-card-back">
+                                    <div class="experience-head">
+                                        <h3 class="experience-role">Key Contributions</h3>
+                                        <span class="experience-date">Engineering Role</span>
+                                    </div>
+                                    <ul class="experience-points">
+                                        <li>Optimized institutional onboarding workflows, reducing end-to-end processing latency by 30% through automation of multi-stage data ingestion and event-driven email notification systems.</li>
+                                        <li>Implemented a global Security Middleware layer to enforce CSRF protection and token validation across 200+ RESTful endpoints, hardening against cross-site attacks without impacting API latency.</li>
+                                        <li>Engineered background processing with scheduled tasks (CRON) and Spring Batch for high-volume data synchronization and automated reporting, ensuring 99.9% data consistency.</li>
+                                        <li>Maintained production stability for high-traffic onboarding modules, including complex schema migrations and feature enhancements for institutional clients.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="experience-flip-card" tabindex="0" role="button" aria-label="Visa Summer Intern card. Click to flip.">
+                            <div class="experience-card-inner">
+                                <div class="experience-card-face experience-card-front">
+                                    <div class="experience-head">
+                                        <h3 class="experience-role">Visa Inc. - Summer Intern</h3>
+                                        <span class="experience-date">May 2022 - Jun 2022</span>
+                                    </div>
+                                    <div class="experience-highlights">
+                                        <span class="experience-chip">Angular</span>
+                                        <span class="experience-chip">Spring Boot</span>
+                                        <span class="experience-chip">Java</span>
+                                        <span class="experience-chip">Workflow Visualizer</span>
+                                        <span class="experience-chip">Rules Engine</span>
+                                    </div>
+                                    <p class="flip-hint">Click card to view detailed impact.</p>
+                                </div>
+                                <div class="experience-card-face experience-card-back">
+                                    <div class="experience-head">
+                                        <h3 class="experience-role">Key Contributions</h3>
+                                        <span class="experience-date">Internship</span>
+                                    </div>
+                                    <ul class="experience-points">
+                                        <li>Designed and built an Angular-based workflow visualizer with Spring Boot backend for real-time process visibility.</li>
+                                        <li>Implemented a database-driven rules engine using Java and Spring Boot, improving flexibility and reducing direct production database dependency.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>
-            
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#projects" aria-expanded="true">
-                        Projects
-                    </button>
-                </h2>
-                <div id="projects" class="accordion-collapse collapse show" >
-                    <div class="accordion-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Cloud-based IDE & Collaboration Platform</h5>
-                                        <p class="card-text">Real-time collaborative IDE with Dockerized compilation.</p>
-                                        <a href="https://github.com/ishan0jain/cloud-ide" class="btn btn-primary" target="_blank">View Code</a>
-                                    </div>
+        </div>
+
+        <div class="accordion-item reveal-section">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#projects" aria-expanded="true">
+                    Projects
+                </button>
+            </h2>
+            <div id="projects" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card project-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Cloud-based IDE & Collaboration Platform</h5>
+                                    <p class="card-text">Built a cloud IDE with React and Spring Boot, enabled real-time collaboration via WebSockets, and used Docker + AWS EC2 for isolated scalable code execution.</p>
+                                    <a href="https://github.com/ishan0jain/cloud-ide" class="btn btn-project" target="_blank" rel="noopener noreferrer">View Code</a>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">E-Commerce Platform</h5>
-                                        <p class="card-text">Scalable e-commerce system with microservices architecture.</p>
-                                        <a href="https://github.com/ishan0jain/ecommerce-platform" class="btn btn-primary" target="_blank">View Code</a>
-                                    </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card project-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">E-Commerce Platform</h5>
+                                    <p class="card-text">Developed a scalable Spring Boot microservices platform supporting 500+ retailers with REST APIs and high-concurrency AWS deployment.</p>
+                                    <a href="https://github.com/ishan0jain/ecommerce-platform" class="btn btn-project" target="_blank" rel="noopener noreferrer">View Code</a>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Electricity Load Forecasting</h5>
-                                        <p class="card-text">CNN-LSTM model for power demand prediction.</p>
-                                        <a href="https://github.com/ishan0jain/electricity-forecast" class="btn btn-primary" target="_blank">View Code</a>
-                                    </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card project-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Electricity Load Forecasting</h5>
+                                    <p class="card-text">Designed a CNN-LSTM TensorFlow forecasting pipeline achieving 92% accuracy while reducing model training time significantly.</p>
+                                    <a href="https://github.com/ishan0jain/electricity-forecast" class="btn btn-project" target="_blank" rel="noopener noreferrer">View Code</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contact" aria-expanded="false">
-                        Contact
-                    </button>
-                </h2>
-                <div id="contact" class="accordion-collapse collapse" >
-                    <div class="accordion-body text-center">
-                        <a href="mailto:ishannfl@gmail.com" class="btn btn-custom">Email Me</a>
-                        <a href="https://github.com/ishan0jain" class="btn btn-custom">GitHub</a>
-                        <a href="https://www.linkedin.com/in/ishan-jain-1033391a7/" class="btn btn-custom">LinkedIn</a>
-                    </div>
+        </div>
+
+        <div class="accordion-item reveal-section">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#education" aria-expanded="false">
+                    Education
+                </button>
+            </h2>
+            <div id="education">
+                <div class="accordion-body">
+                    <strong>National Institute of Technology, Warangal</strong><br>
+                    Bachelor of Technology in Electrical and Electronics Engineering (2019 - 2023)
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item reveal-section">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#contact" aria-expanded="false">
+                    Contact
+                </button>
+            </h2>
+            <div id="contact">
+                <div class="accordion-body text-center contact-links">
+                    <a href="mailto:ishannfl@gmail.com" class="btn btn-project">ishannfl@gmail.com</a>
+                    <a href="https://github.com/ishan0jain" class="btn btn-project" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://www.linkedin.com/in/ishan-jain-1033391a7/" class="btn btn-project" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        function sendEmail() {
-            window.location.href = "mailto:ishannfl@gmail.com?subject=Hiring Inquiry&body=Hi Ishan, I’d love to discuss an opportunity with you.";
-        }
-        </script>
+</main>
 
+<script>
+    function sendEmail() {
+        window.location.href = "mailto:ishannfl@gmail.com?subject=Hiring Inquiry&body=Hi Ishan, I'd love to discuss an opportunity with you.";
+    }
+
+    function updateScrollProgress() {
+        const scrollTop = window.scrollY;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        document.getElementById("scrollProgress").style.width = progress + "%";
+    }
+
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    updateScrollProgress();
+
+    const revealSections = document.querySelectorAll(".reveal-section");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+        revealSections.forEach((section) => section.classList.add("is-visible"));
+    } else {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
+
+        revealSections.forEach((section, index) => {
+            section.style.transitionDelay = `${Math.min(index * 80, 240)}ms`;
+            revealObserver.observe(section);
+        });
+    }
+
+    document.querySelectorAll('a.jump-link[href^="#"]').forEach((link) => {
+        link.addEventListener("click", () => {
+            const targetId = link.getAttribute("href").slice(1);
+            const collapseEl = document.getElementById(targetId);
+            if (!collapseEl || !collapseEl.classList.contains("accordion-collapse")) {
+                return;
+            }
+
+            const collapseInstance = bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+            collapseInstance.show();
+        });
+    });
+
+    document.querySelectorAll(".experience-flip-card").forEach((card) => {
+        const expandThenFlip = () => {
+            if (card.flipTimer) {
+                clearTimeout(card.flipTimer);
+            }
+
+            const isExpanded = card.classList.contains("is-expanded");
+            const isFlipped = card.classList.contains("is-flipped");
+
+            if (!isExpanded) {
+                card.classList.add("is-expanded");
+                card.flipTimer = setTimeout(() => {
+                    card.classList.add("is-flipped");
+                }, 260);
+                return;
+            }
+
+            if (!isFlipped) {
+                card.classList.add("is-flipped");
+                return;
+            }
+
+            card.classList.remove("is-flipped");
+            card.flipTimer = setTimeout(() => {
+                card.classList.remove("is-expanded");
+            }, 260);
+        };
+
+        card.addEventListener("click", expandThenFlip);
+
+        card.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                expandThenFlip();
+            }
+        });
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
