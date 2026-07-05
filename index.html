@@ -120,7 +120,9 @@
             bottom: 28px;
             z-index: 860;
             width: 54px;
-            pointer-events: none;
+            pointer-events: auto;
+            user-select: none;
+            touch-action: none;
         }
 
         .scroll-ribbon-track {
@@ -140,6 +142,7 @@
                 inset 0 0 18px rgba(0, 0, 0, 0.58),
                 0 0 24px rgba(85, 230, 165, 0.16);
             overflow: hidden;
+            cursor: pointer;
         }
 
         .scroll-ribbon-track::before {
@@ -185,6 +188,11 @@
                 0 16px 34px rgba(0, 0, 0, 0.42);
             backdrop-filter: blur(12px);
             transition: transform 90ms linear;
+            cursor: grab;
+        }
+
+        .scroll-ribbon-thumb:active {
+            cursor: grabbing;
         }
 
         .scroll-ribbon-thumb::before {
@@ -194,18 +202,6 @@
             border-radius: 999px;
             background: linear-gradient(180deg, var(--mint), var(--amber), var(--coral));
             box-shadow: 0 0 20px rgba(85, 230, 165, 0.32);
-        }
-
-        .scroll-ribbon-label {
-            position: relative;
-            z-index: 1;
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            color: #080806;
-            font-size: 0.68rem;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
         }
 
         .site-nav {
@@ -224,6 +220,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 20px;
+            flex-wrap: wrap;
             min-height: 72px;
         }
 
@@ -255,6 +252,46 @@
             justify-content: flex-end;
             gap: 8px;
             flex-wrap: wrap;
+            flex: 1 1 auto;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex: 0 0 auto;
+        }
+
+        .nav-resume {
+            min-height: 36px;
+            padding: 8px 11px;
+            border: 1px solid var(--line-strong);
+            border-radius: 8px;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.055);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 900;
+            white-space: nowrap;
+            transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+        }
+
+        .nav-resume:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.42);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-resume-download {
+            color: #07100c;
+            border-color: transparent;
+            background: linear-gradient(135deg, var(--mint), var(--amber));
+        }
+
+        .nav-resume-download:hover {
+            color: #07100c;
+            background: linear-gradient(135deg, #67f2b4, #ffda7a);
         }
 
         .nav-link {
@@ -1296,6 +1333,11 @@
                 justify-content: flex-start;
             }
 
+            .nav-actions {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+
             .hero {
                 min-height: 82vh;
             }
@@ -1359,12 +1401,6 @@
             .scroll-ribbon-thumb::before {
                 inset: 5px;
                 background: linear-gradient(90deg, var(--mint), var(--amber), var(--coral));
-            }
-
-            .scroll-ribbon-label {
-                writing-mode: horizontal-tb;
-                transform: none;
-                font-size: 0.64rem;
             }
 
             .hero-metrics,
@@ -1470,6 +1506,11 @@
                 padding-inline: 8px;
             }
 
+            .nav-resume {
+                font-size: 0.78rem;
+                padding-inline: 9px;
+            }
+
             .signal-track span {
                 padding-inline: 18px;
             }
@@ -1494,7 +1535,7 @@
 </head>
 <body>
 <div class="scroll-progress" id="scrollProgress"></div>
-<div class="scroll-ribbon" aria-hidden="true">
+<div class="scroll-ribbon" id="scrollRibbon" role="scrollbar" aria-label="Page scroll control" aria-controls="top" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
     <div class="scroll-ribbon-track">
         <span style="--p: 0%"></span>
         <span style="--p: 20%"></span>
@@ -1503,9 +1544,7 @@
         <span style="--p: 80%"></span>
         <span style="--p: 100%"></span>
     </div>
-    <div class="scroll-ribbon-thumb" id="scrollRibbonThumb">
-        <span class="scroll-ribbon-label" id="scrollRibbonLabel">Top</span>
-    </div>
+    <div class="scroll-ribbon-thumb" id="scrollRibbonThumb"></div>
 </div>
 
 <nav class="site-nav" aria-label="Primary navigation">
@@ -1521,6 +1560,10 @@
             <a class="nav-link" href="#projects">Projects</a>
             <a class="nav-link" href="#credentials">Credentials</a>
             <a class="nav-link" href="#contact">Contact</a>
+        </div>
+        <div class="nav-actions">
+            <a class="nav-resume" href="https://drive.google.com/file/d/1kreFQ2ZiGBTXLXV-w63Tnfo1VPSxyGCV/view?usp=sharing" target="_blank" rel="noopener noreferrer">View Resume</a>
+            <a class="nav-resume nav-resume-download" href="https://drive.google.com/uc?export=download&id=1kreFQ2ZiGBTXLXV-w63Tnfo1VPSxyGCV" target="_blank" rel="noopener noreferrer">Download</a>
         </div>
     </div>
 </nav>
@@ -2040,29 +2083,70 @@
 <script>
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const progressBar = document.getElementById("scrollProgress");
-    const scrollRibbon = document.querySelector(".scroll-ribbon");
+    const scrollRibbon = document.getElementById("scrollRibbon");
     const scrollRibbonThumb = document.getElementById("scrollRibbonThumb");
-    const scrollRibbonLabel = document.getElementById("scrollRibbonLabel");
     const compactRibbonQuery = window.matchMedia("(max-width: 720px)");
+    let isRibbonDragging = false;
     const navLinks = Array.from(document.querySelectorAll(".nav-link"));
     const sections = navLinks
         .map((link) => document.querySelector(link.getAttribute("href")))
         .filter(Boolean);
+
+    function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+    }
+
+    function getScrollableHeight() {
+        return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    }
+
+    function getRibbonMetrics() {
+        const ribbonRect = scrollRibbon.getBoundingClientRect();
+        const thumbRect = scrollRibbonThumb.getBoundingClientRect();
+        const isCompact = compactRibbonQuery.matches;
+        const travel = Math.max(0, isCompact ? ribbonRect.width - thumbRect.width : ribbonRect.height - thumbRect.height);
+        const start = isCompact ? ribbonRect.left : ribbonRect.top;
+        const thumbSize = isCompact ? thumbRect.width : thumbRect.height;
+
+        return { isCompact, travel, start, thumbSize };
+    }
+
+    function getCurrentProgress() {
+        const scrollHeight = getScrollableHeight();
+        return scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+    }
+
+    function scrollToProgress(progress) {
+        const clampedProgress = clamp(progress, 0, 100);
+        window.scrollTo({
+            top: (clampedProgress / 100) * getScrollableHeight(),
+            behavior: "auto"
+        });
+    }
+
+    function getProgressFromPointer(event) {
+        const metrics = getRibbonMetrics();
+        if (metrics.travel <= 0) {
+            return 0;
+        }
+
+        const pointerPosition = metrics.isCompact ? event.clientX : event.clientY;
+        return ((pointerPosition - metrics.start - metrics.thumbSize / 2) / metrics.travel) * 100;
+    }
 
     function updateScrollRibbon(progress) {
         if (!scrollRibbon || !scrollRibbonThumb) {
             return;
         }
 
-        const ribbonRect = scrollRibbon.getBoundingClientRect();
-        const thumbRect = scrollRibbonThumb.getBoundingClientRect();
-        const isCompact = compactRibbonQuery.matches;
-        const travel = Math.max(0, isCompact ? ribbonRect.width - thumbRect.width : ribbonRect.height - thumbRect.height);
+        const metrics = getRibbonMetrics();
+        const travel = metrics.travel;
         const offset = (progress / 100) * travel;
 
-        scrollRibbonThumb.style.transform = isCompact
+        scrollRibbonThumb.style.transform = metrics.isCompact
             ? `translate(${offset}px, -50%)`
             : `translate(-50%, ${offset}px)`;
+        scrollRibbon.setAttribute("aria-valuenow", String(Math.round(progress)));
     }
 
     function updateScrollProgress() {
@@ -2086,10 +2170,55 @@
         navLinks.forEach((link) => {
             const isActive = link.getAttribute("href") === `#${activeId}`;
             link.classList.toggle("is-active", isActive);
+        });
+    }
 
-            if (isActive && scrollRibbonLabel) {
-                scrollRibbonLabel.textContent = window.scrollY < 80 ? "Top" : link.textContent.trim();
+    if (scrollRibbon) {
+        scrollRibbon.addEventListener("pointerdown", (event) => {
+            event.preventDefault();
+            isRibbonDragging = true;
+            scrollRibbon.setPointerCapture(event.pointerId);
+            scrollToProgress(getProgressFromPointer(event));
+        });
+
+        scrollRibbon.addEventListener("pointermove", (event) => {
+            if (!isRibbonDragging) {
+                return;
             }
+
+            event.preventDefault();
+            scrollToProgress(getProgressFromPointer(event));
+        });
+
+        scrollRibbon.addEventListener("pointerup", (event) => {
+            isRibbonDragging = false;
+            scrollRibbon.releasePointerCapture(event.pointerId);
+        });
+
+        scrollRibbon.addEventListener("pointercancel", () => {
+            isRibbonDragging = false;
+        });
+
+        scrollRibbon.addEventListener("keydown", (event) => {
+            const currentProgress = getCurrentProgress();
+            const keyActions = {
+                ArrowUp: -6,
+                ArrowLeft: -6,
+                ArrowDown: 6,
+                ArrowRight: 6,
+                PageUp: -18,
+                PageDown: 18,
+                Home: -100,
+                End: 100
+            };
+
+            if (!(event.key in keyActions)) {
+                return;
+            }
+
+            event.preventDefault();
+            const nextProgress = event.key === "Home" ? 0 : event.key === "End" ? 100 : currentProgress + keyActions[event.key];
+            scrollToProgress(nextProgress);
         });
     }
 
